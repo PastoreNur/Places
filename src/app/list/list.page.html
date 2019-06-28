@@ -11,12 +11,45 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let item of items">
-      <ion-icon [name]="item.icon" slot="start"></ion-icon>
-      {{item.title}}
-      <div class="item-note" slot="end">
-        {{item.note}}
+    <ion-item>
+      Nombre
+
+      <div class="item-note" >
+        <ion-label>
+          Categoria
+          </ion-label>
       </div>
+
+      <div class="">
+        Nota
+      </div>
+
+      <div class="" slot="end">
+      Distancia
+      </div>
+
+    </ion-item>
+    <ion-item *ngFor="let item of items">
+      {{item.title}}
+
+      <div class="item-note" >
+        <ion-label>
+          {{item.cat}}
+          </ion-label>
+      </div>
+
+      <div class="">
+        {{item.nota}}
+      </div>
+      <ion-item onclick="buttonClick()">
+        <ion-button>
+          Mapa
+        </ion-button>
+      </ion-item>
+      <div class="" slot="end">
+      {{item.dist}}
+      </div>
+
     </ion-item>
   </ion-list>
   <!--

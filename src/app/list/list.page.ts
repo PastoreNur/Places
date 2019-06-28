@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HTTP } from '@ionic-native/http/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-list',
@@ -7,28 +9,63 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListPage implements OnInit {
   private selectedItem: any;
-  private icons = [
-    'flask',
-    'wifi',
-    'beer',
-    'football',
-    'basketball',
-    'paper-plane',
-    'american-football',
-    'boat',
-    'bluetooth',
-    'build'
-  ];
-  public items: Array<{ title: string; note: string; icon: string }> = [];
-  constructor() {
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+  private places: any;
+  private lat: any;
+  private long: any;
+  private place: any;
+  public items: Array<{ title: string; cat: string;nota: string; dist: string;}> = [];
+
+
+  distancia(lat1,lon1,lat2,lon2){
+  var R = 6378.137; //Radio de la tierra en km
+  var dLat = ( lat2 - lat1 )*Math.PI/180;
+  console.log(dLat);
+  var dLong = ( lon2 - lon1 )*Math.PI/180;
+  console.log(dLong);
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180) * Math.cos((lat2)*Math.PI/180) * Math.sin(dLong/2) * Math.sin(dLong/2);
+  console.log(a);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  console.log(c);
+  var d = R * c;
+  console.log(R);
+  return d.toFixed(3); //Retorna tres decimales
   }
+
+  constructor(private http: HTTP,private geolocation: Geolocation) {
+
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.lat = resp.coords.latitude
+      this.long = resp.coords.longitude
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+      this.http.get('http://192.168.0.18:8000/api/places', {}, {})
+          .then(data => {
+            this.places = data.data;
+            this.place = this.places.slice(1,-1);
+
+            this.place = JSON.parse(this.place);
+            this.items.push({
+              title: String(this.place.name),
+              nota:  String(this.place.nota),
+              dist: String(this.distancia(this.place.lat,this.place.long,this.lat, this.long)),
+              cat: String(this.place.category)
+            });
+
+
+          })
+          .catch(error => {
+            console.log(error.status);
+            console.log(error.error); // error message as string
+            console.log(error.headers);
+          });
+
+
+
+  }
+
+
+
 
   ngOnInit() {
   }

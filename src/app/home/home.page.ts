@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 @Component({
   selector: 'app-home',
@@ -6,8 +7,17 @@ import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  private lat: any;
+  private long: any;
 
-  constructor() {}
+  constructor(private geolocation: Geolocation) {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.lat = resp.coords.latitude
+      this.long = resp.coords.longitude
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+  }
 
 
   map: Map;
@@ -16,15 +26,15 @@ export class HomePage {
 
   leafletMap() {
     // In setView add latLng and zoom
-    this.map = new Map('mapId').setView([28.644800, 77.216721], 10);
-    tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'edupala.com © ionic LeafLet',
+    this.map = new Map('mapId').setView([this.lat, this.long], 13);
+
+    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
     }).addTo(this.map);
 
-
-    marker([28.6, 77]).addTo(this.map)
-      .bindPopup('Ionic 4 <br> Leaflet.')
-      .openPopup();
+    marker([this.lat, this.long]).addTo(this.map)
+        .bindPopup('Estoy aqui.')
+        .openPopup();
   }
 
   /** Remove map when we have multiple map object */
