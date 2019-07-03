@@ -14,13 +14,13 @@
     <ion-item>
       Nombre
 
-      <div class="item-note" >
+      <div class="item-note" class="ion-padding-start">
         <ion-label>
           Categoria
           </ion-label>
       </div>
 
-      <div class="">
+      <div class="" class="ion-padding-start">
         Nota
       </div>
 
@@ -32,16 +32,16 @@
     <ion-item *ngFor="let item of items">
       {{item.title}}
 
-      <div class="item-note" >
+      <div class="item-note" class="ion-padding-start" >
         <ion-label>
           {{item.cat}}
           </ion-label>
       </div>
 
-      <div class="">
+      <div class="" class="ion-padding-start">
         {{item.nota}}
       </div>
-      <ion-item onclick="buttonClick()">
+      <ion-item onclick="buttonClick()" class="ion-padding-start">
         <ion-button>
           Mapa
         </ion-button>

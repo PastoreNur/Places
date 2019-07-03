@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Agregar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div [class.ion-align-self-end]>
+  <ion-label>Nombre</ion-label>
+  <ion-input type="text" [(ngModel)]="name"></ion-input>
+  <ion-label>Descripción</ion-label>
+  <ion-input type="text" [(ngModel)]="descr"></ion-input>
+    <ion-label>Categoria</ion-label>
+    <ion-input type="text" [(ngModel)]="cat"></ion-input>
+
+    <ion-label>Nota</ion-label>
+    <ion-select placeholder="Seleccionar" [(ngModel)]="nota">
+      <ion-select-option value="0">0</ion-select-option>
+      <ion-select-option value="1">1</ion-select-option>
+      <ion-select-option value="2">2</ion-select-option>
+      <ion-select-option value="3">3</ion-select-option>
+      <ion-select-option value="4">4</ion-select-option>
+      <ion-select-option value="5">5</ion-select-option>
+      <ion-select-option value="6">6</ion-select-option>
+      <ion-select-option value="7">7</ion-select-option>
+      <ion-select-option value="8">8</ion-select-option>
+      <ion-select-option value="9">9</ion-select-option>
+      <ion-select-option value="10">10</ion-select-option>
+    </ion-select>
+    <ion-button (click)="post()" )>Agregar</ion-button>
+  </div>
+</ion-content>
